@@ -66,9 +66,7 @@ public class CSVtoKML {
 		FilterCSV FilterObj=new FilterCSV();
 		FilterObj.Filter();
 		
-		
-		//Define the Kml location
-		File kmlLoc=new File("c:/temp2/final.kml");
+
 
 		//Check if filter CSV is exist, if so convert him to KML
 		//else convert the merge CSV to KML
