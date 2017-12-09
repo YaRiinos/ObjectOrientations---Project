@@ -11,6 +11,13 @@ This project is taking CSV file, recreate them according to a specific format an
 ## So How Does The Program Work?
 <p align="center"><img src="https://preview.ibb.co/g4DVv6/program_step_by_step.png" alt="program_step_by_step" border="0"></p>
 
+## Features
+This project contains several features such as:
+<ul>
+ <li>Finding a spacific MAC location</li>
+ <li>Finding the user location based on the network around</li>
+</ul>
+
 ## Experiments
 <h4>First experiment</h4>
 This experiment was made with LG H815 while we collect info when we went to Kfar Saba from Ariel.
