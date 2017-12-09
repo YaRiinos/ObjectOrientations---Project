@@ -66,7 +66,9 @@ public class CSVtoKML {
 		FilterCSV FilterObj=new FilterCSV();
 		FilterObj.Filter();
 		
-
+		
+		//Define the Kml location
+		File kmlLoc=new File("c:/temp2/final.kml");
 
 		//Check if filter CSV is exist, if so convert him to KML
 		//else convert the merge CSV to KML
@@ -79,9 +81,13 @@ public class CSVtoKML {
 		else
 			Converter.csvToKml();
 
-		System.out.println("Done");
-
+		System.out.println("Done\n");
 		
+		Algo a=new Algo("c:/temp2/merged.csv","1c:b9:c4:14:33:c8");
+		a.firstAlgo();
+
+		Algo2 x=new Algo2();
+		x.secondAlgo();
 
 	}//END MAIN
 
