@@ -8,15 +8,15 @@ This project is taking CSV file, recreate them according to a specific format an
 <b>CSV:</b> <a href="https://en.wikipedia.org/wiki/Comma-separated_values">Wikipedia</a> 
 <b>KML:</b> <a href="https://en.wikipedia.org/wiki/Keyhole_Markup_Language">Wikipedia</a>
 
-## So How Does The Program Work?
-<p align="center"><img src="https://preview.ibb.co/g4DVv6/program_step_by_step.png" alt="program_step_by_step" border="0"></p>
-
 ## Features
 This project contains several features such as:
 <ul>
- <li>Finding a spacific MAC location</li>
+ <li>Finding a specific MAC location</li>
  <li>Finding the user location based on the network around</li>
 </ul>
+
+## So How Does The Program Work?
+<p align="center"><img src="https://preview.ibb.co/g4DVv6/program_step_by_step.png" alt="program_step_by_step" border="0"></p>
 
 ## Experiments
 <h4>First experiment</h4>
