@@ -10,54 +10,54 @@ import java.util.Scanner;
 public class FilterCSV {
 
 	String firstLocation, lastLocation;
-	
+
 	public FilterCSV() {
-		firstLocation="c:/temp2/merged.csv";
-		lastLocation="c:/temp2/filterCSV.csv";
+		firstLocation = "c:/temp2/merged.csv";
+		lastLocation = "c:/temp2/filterCSV.csv";
 	}
-	
+
 	public FilterCSV(String newfirstLocation, String newlastLocation) {
-		firstLocation=newfirstLocation;
-		lastLocation=newlastLocation;
+		firstLocation = newfirstLocation;
+		lastLocation = newlastLocation;
 	}
-	
+
 	/**
-	 * This is the filter function.
-	 * The function get an input from the user and according to that using the filter.
+	 * This is the filter function. The function get an input from the user and
+	 * according to that using the filter.
+	 * 
 	 * @param firstLocation
 	 * @return
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public  String Filter() throws FileNotFoundException, IOException {
-		Scanner scanner = new Scanner( System.in );
+	public String Filter() throws FileNotFoundException, IOException {
+		Scanner scanner = new Scanner(System.in);
 		String line = "";
 		String cvsSplitBy = ",";
-		int counter=0;
+		int counter = 0;
 
-
-		//Using the filter
+		// Using the filter
 		System.out.println("Do you want to use filter before making the KML file?\nType (Y/N)");
 		String input = scanner.nextLine();
 
-		if(input.equals("y")||input.equals("Y")) {
+		if (input.equals("y") || input.equals("Y")) {
 
-			//get the input from the user
+			// get the input from the user
 			System.out.println("What are you looking for?\n(1)Time (2)ID (3)Location ");
 			input = scanner.nextLine();
 
-			String dateInput=null,idInput="model=",locationInput=null;
+			String dateInput = null, idInput = "model=", locationInput = null;
 
-			//Get time
-			if(input.equals("1")) {
+			// Get time
+			if (input.equals("1")) {
 				System.out.println("Type the exact date and time: (Format:2017-10-30 18:10:33)");
-				dateInput= scanner.nextLine();
+				dateInput = scanner.nextLine();
 
-				try (BufferedReader br = new BufferedReader(new FileReader(firstLocation))){
+				try (BufferedReader br = new BufferedReader(new FileReader(firstLocation))) {
 					br.readLine(); // this will read the first line
 					while ((line = br.readLine()) != null) {
 						String[] column = line.split(cvsSplitBy);
-						if(column[0].equals(dateInput)) {
+						if (column[0].equals(dateInput)) {
 							thePrint(column, firstLocation, lastLocation, counter);
 							counter++;
 						}
@@ -65,38 +65,38 @@ public class FilterCSV {
 				}
 			}
 
-			//Get ID/Model
-			else if(input.equals("2")) {
+			// Get ID/Model
+			else if (input.equals("2")) {
 				System.out.println("Type the exact model:");
-				idInput+= scanner.nextLine();
-				try (BufferedReader br = new BufferedReader(new FileReader(firstLocation))){
+				idInput += scanner.nextLine();
+				try (BufferedReader br = new BufferedReader(new FileReader(firstLocation))) {
 					br.readLine(); // this will read the first line
 					while ((line = br.readLine()) != null) {
 						String[] column = line.split(cvsSplitBy);
-						if(column[1].equals(idInput)) {
+						if (column[1].equals(idInput)) {
 							thePrint(column, firstLocation, lastLocation, counter);
 							counter++;
 
 						}
 					}
 				}
-			}	
+			}
 
-			//Get location
-			else if(input.equals("3")) {
+			// Get location
+			else if (input.equals("3")) {
 				double radius;
 				System.out.println("Type the exact Location: (Format:Lat,Lon)");
-				locationInput= scanner.nextLine();
+				locationInput = scanner.nextLine();
 				System.out.println("Enter a valid radius: ");
-				radius=scanner.nextDouble();
-				try (BufferedReader br = new BufferedReader(new FileReader(firstLocation))){
+				radius = scanner.nextDouble();
+				try (BufferedReader br = new BufferedReader(new FileReader(firstLocation))) {
 					br.readLine(); // this will read the first line
 					while ((line = br.readLine()) != null) {
 						String[] column = line.split(cvsSplitBy);
-						String[] locationSplit=locationInput.split(",");
-						double dis=distFrom(Double.valueOf(locationSplit[0]), Double.valueOf(locationSplit[1]),
+						String[] locationSplit = locationInput.split(",");
+						double dis = distFrom(Double.valueOf(locationSplit[0]), Double.valueOf(locationSplit[1]),
 								Double.valueOf(column[2]), Double.valueOf(column[3]));
-						if(dis<=radius){
+						if (dis <= radius) {
 							thePrint(column, firstLocation, lastLocation, counter);
 							counter++;
 
@@ -110,63 +110,60 @@ public class FilterCSV {
 
 		}
 
-
-
 		return lastLocation;
 	}
 
-	
-
 	/**
 	 * This function print the filtered CSV file if the user want to filter.
+	 * 
 	 * @param column
 	 * @param firstLocation
 	 * @param lastLocation
 	 * @param counter
 	 * @throws IOException
 	 */
-	public static void thePrint(String column[], String firstLocation, String lastLocation, int counter) throws IOException {
-		//Delimiter used in CSV file
+	public static void thePrint(String column[], String firstLocation, String lastLocation, int counter)
+			throws IOException {
+		// Delimiter used in CSV file
 		String COMMA_DELIMITER = ",";
 		String NEW_LINE_SEPARATOR = "\n";
-		//CSV file header
+		// CSV file header
 		String FILE_HEADER = "Time, ID, Lat, Lon, Alt,#WiFi networks, SSID, MAC, Frequncy, Signal";
 		FileWriter fileWriter = null;
 
-
-		if(counter<1) {
+		if (counter < 1) {
 			try {
 
 				fileWriter = new FileWriter(lastLocation);
-				//Write the CSV file header
+				// Write the CSV file header
 				fileWriter.append(FILE_HEADER.toString());
-				//Add a new line separator after the header
+				// Add a new line separator after the header
 				fileWriter.append(NEW_LINE_SEPARATOR);
 				try (BufferedReader br = new BufferedReader(new FileReader(firstLocation))) {
 					br.readLine(); // this will read the first line
-					fileWriter.append(column[0]);//time
+					fileWriter.append(column[0]);// time
 					fileWriter.append(COMMA_DELIMITER);
-					fileWriter.append(column[1]);//model
+					fileWriter.append(column[1]);// model
 					fileWriter.append(COMMA_DELIMITER);
-					fileWriter.append(column[2]);//lat
+					fileWriter.append(column[2]);// lat
 					fileWriter.append(COMMA_DELIMITER);
-					fileWriter.append(column[3]);//lon
+					fileWriter.append(column[3]);// lon
 					fileWriter.append(COMMA_DELIMITER);
-					fileWriter.append(column[4]);//alt
+					fileWriter.append(column[4]);// alt
 					fileWriter.append(COMMA_DELIMITER);
-					fileWriter.append(column[5]);//wifi#
+					fileWriter.append(column[5]);// wifi#
 					fileWriter.append(COMMA_DELIMITER);
-					fileWriter.append(column[6]);//wifi
+					fileWriter.append(column[6]);// wifi
 					fileWriter.append(COMMA_DELIMITER);
-					fileWriter.append(column[7]);//MAC
+					fileWriter.append(column[7]);// MAC
 					fileWriter.append(COMMA_DELIMITER);
-					fileWriter.append(column[8]);//frq
+					fileWriter.append(column[8]);// frq
 					fileWriter.append(COMMA_DELIMITER);
-					fileWriter.append(column[9]);//signal
-					fileWriter.append(NEW_LINE_SEPARATOR);   
-				} 
-				System.out.println("Filtered CSV file was created successfully!"); 
-			} 
+					fileWriter.append(column[9]);// signal
+					fileWriter.append(NEW_LINE_SEPARATOR);
+				}
+				System.out.println("Filtered CSV file was created successfully!");
+			}
 
 			catch (Exception e) {
 				System.out.println("Error in CsvFileWriter!");
@@ -177,49 +174,46 @@ public class FilterCSV {
 				try {
 					fileWriter.flush();
 					fileWriter.close();
-				}
-				catch (IOException e) {
+				} catch (IOException e) {
 					System.out.println("Error while flushing/closing fileWriter!");
 					e.printStackTrace();
 				}
 			}
 
-
 		}
 
-		else {//if this is not the first line
-			try{
-				String filename= "c:/temp2/filterCSV.csv";
-				FileWriter fw = new FileWriter(filename,true); 
-				fw.write(column[0]);//time
+		else {// if this is not the first line
+			try {
+				String filename = "c:/temp2/filterCSV.csv";
+				FileWriter fw = new FileWriter(filename, true);
+				fw.write(column[0]);// time
 				fw.write(COMMA_DELIMITER);
-				fw.write(column[1]);//model
+				fw.write(column[1]);// model
 				fw.write(COMMA_DELIMITER);
-				fw.write(column[2]);//lat
+				fw.write(column[2]);// lat
 				fw.write(COMMA_DELIMITER);
-				fw.write(column[3]);//lon
+				fw.write(column[3]);// lon
 				fw.write(COMMA_DELIMITER);
-				fw.write(column[4]);//alt
+				fw.write(column[4]);// alt
 				fw.write(COMMA_DELIMITER);
-				fw.write(column[5]);//wifi#
+				fw.write(column[5]);// wifi#
 				fw.write(COMMA_DELIMITER);
-				fw.write(column[6]);//wifi
+				fw.write(column[6]);// wifi
 				fw.write(COMMA_DELIMITER);
-				fw.write(column[7]);//MAC
+				fw.write(column[7]);// MAC
 				fw.write(COMMA_DELIMITER);
-				fw.write(column[8]);//frq
+				fw.write(column[8]);// frq
 				fw.write(COMMA_DELIMITER);
-				fw.write(column[9]);//signal
+				fw.write(column[9]);// signal
 				fw.write(NEW_LINE_SEPARATOR);
 				fw.close();
-			}
-			catch(IOException ioe){
+			} catch (IOException ioe) {
 				System.err.println("IOException: " + ioe.getMessage());
 			}
 		}
 
 	}
-	
+
 	public String getFirstLocation() {
 		return firstLocation;
 	}
@@ -235,19 +229,19 @@ public class FilterCSV {
 	public void setLastLocation(String lastLocation) {
 		this.lastLocation = lastLocation;
 	}
-	
-	public static double distFrom(double lat1, double lng1, double lat2, double lng2) {
-	    double earthRadius = 3958.75; // miles (or 6371.0 kilometers)
-	    double dLat = Math.toRadians(lat2-lat1);
-	    double dLng = Math.toRadians(lng2-lng1);
-	    double sindLat = Math.sin(dLat / 2);
-	    double sindLng = Math.sin(dLng / 2);
-	    double a = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)
-	            * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
-	    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-	    double dist = earthRadius * c;
 
-	    return dist;
-	    }
-	
+	public static double distFrom(double lat1, double lng1, double lat2, double lng2) {
+		double earthRadius = 3958.75; // miles (or 6371.0 kilometers)
+		double dLat = Math.toRadians(lat2 - lat1);
+		double dLng = Math.toRadians(lng2 - lng1);
+		double sindLat = Math.sin(dLat / 2);
+		double sindLng = Math.sin(dLng / 2);
+		double a = Math.pow(sindLat, 2)
+				+ Math.pow(sindLng, 2) * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		double dist = earthRadius * c;
+
+		return dist;
+	}
+
 }
