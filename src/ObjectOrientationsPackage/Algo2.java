@@ -11,169 +11,165 @@ import java.util.*;
 public class Algo2 {
 
 	String fileLoc;
-	String MacAddr[]=new String[3];
-	int signal[]=new int [3];
+	String MacAddr[] = new String[3];
+	int signal[] = new int[3];
 
-	private double power=2;
-	private double sigDiff=0.4;
-	private double norm=10000;
-	private double minDiff=3;
-	private double noSignal=-120;
-	private double diffNoSignal=100;
-
-
+	private double power = 2;
+	private double sigDiff = 0.4;
+	private double norm = 10000;
+	private double minDiff = 3;
+	private double noSignal = -120;
+	private double diffNoSignal = 100;
 
 	public Algo2() {
-		fileLoc="c:/temp2/merged.csv";
+		fileLoc = "c:/temp2/merged.csv";
 	}
 
 	public Algo2(String newFileLocation) {
-		fileLoc=newFileLocation;
+		fileLoc = newFileLocation;
 
 	}
 
 	public void insertData() {
-		
-		for(int i=0;i<3;i++) {
-			Scanner scanner = new Scanner (System.in);
-			System.out.println("Enter the "+(i+1)+" MAC address:");
-			MacAddr[i]=scanner.nextLine();
+
+		for (int i = 0; i < 3; i++) {
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("Enter the " + (i + 1) + " MAC address:");
+			MacAddr[i] = scanner.nextLine();
 			System.out.println("Enter the signal of this MAC address:");
-			signal[i]=scanner.nextInt();
+			signal[i] = scanner.nextInt();
 
 		}
 	}
 
-	public double [] caculateW(double [][] MACsSignal) {
-		double [] thePi=new double [3];
+	public double[] caculateW(double[][] MACsSignal) {
+		double[] thePi = new double[3];
 
-		double [][]diff=new double[3][3];
+		double[][] diff = new double[3][3];
 
-		for(int i=0;i<3;i++) {
-			boolean []flags= {true,true,true};
+		for (int i = 0; i < 3; i++) {
+			boolean[] flags = { true, true, true };
 
-			if(MACsSignal[i][0]==0)
-				flags[0]=false;
-			if(MACsSignal[i][1]==0)
-				flags[1]=false;
-			if(MACsSignal[i][2]==0)
-				flags[2]=false;
+			if (MACsSignal[i][0] == 0)
+				flags[0] = false;
+			if (MACsSignal[i][1] == 0)
+				flags[1] = false;
+			if (MACsSignal[i][2] == 0)
+				flags[2] = false;
 
-			for(int j=0;j<3;j++) {
+			for (int j = 0; j < 3; j++) {
 
-				if(MACsSignal[i][j]<=-120&&flags[j]) 
-					diff[i][j]=diffNoSignal;
+				if (MACsSignal[i][j] <= -120 && flags[j])
+					diff[i][j] = diffNoSignal;
 
-				else if(flags[j]) 
-					diff[i][j]=Math.max(minDiff, Math.abs(signal[i]-MACsSignal[i][j]));
-				
+				else if (flags[j])
+					diff[i][j] = Math.max(minDiff, Math.abs(signal[i] - MACsSignal[i][j]));
+
 				else
-					diff[i][j]=-1;
+					diff[i][j] = -1;
 
 			}
 
 		}
-		
-		double [][] wDiff=new double [3][3];
-		
-		for(int i=0;i<3;i++) {
-			for(int j=0;j<3;j++) {
-				if(diff[i][j]==-1)
-					wDiff[i][j]=1;
+
+		double[][] wDiff = new double[3][3];
+
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (diff[i][j] == -1)
+					wDiff[i][j] = 1;
 				else
-					wDiff[i][j]=norm/(Math.pow(diff[i][j], sigDiff)*Math.pow(signal[i], power));
+					wDiff[i][j] = norm / (Math.pow(diff[i][j], sigDiff) * Math.pow(signal[i], power));
 			}
 		}
-		
-		thePi[0]=wDiff[0][0]*wDiff[1][0]*wDiff[2][0];
-		thePi[1]=wDiff[0][1]*wDiff[1][1]*wDiff[2][1];
-		thePi[2]=wDiff[0][2]*wDiff[1][2]*wDiff[2][2];
+
+		thePi[0] = wDiff[0][0] * wDiff[1][0] * wDiff[2][0];
+		thePi[1] = wDiff[0][1] * wDiff[1][1] * wDiff[2][1];
+		thePi[2] = wDiff[0][2] * wDiff[1][2] * wDiff[2][2];
 
 		return thePi;
 	}
 
-	public  double[] secondAlgo() throws FileNotFoundException, IOException {
-		//Array to save the final location
-		double[] assumedLocation=new double[3];
-		double[] []assumedMACsLocation=new double [3][3];
-		double[][] MACSignals=new double[3][3];
+	public double[] secondAlgo() throws FileNotFoundException, IOException {
+		// Array to save the final location
+		double[] assumedLocation = new double[3];
+		double[][] assumedMACsLocation = new double[3][3];
+		double[][] MACSignals = new double[3][3];
 		Scanner scanner = new Scanner(System.in);
 
 		insertData();
 
-		//Delimiter used in CSV file
+		// Delimiter used in CSV file
 		String line = "";
 		String cvsSplitBy = ",";
 
-		//Get the location of each MAC address
-		for(int j=0;j<3;j++) {
-			Algo use = new Algo (fileLoc, MacAddr[j]);
-			assumedMACsLocation[j]=use.firstAlgo();		
+		// Get the location of each MAC address
+		for (int j = 0; j < 3; j++) {
+			Algo use = new Algo(fileLoc, MacAddr[j]);
+			assumedMACsLocation[j] = use.firstAlgo();
 		}
 
-		for(int j=0;j<3;j++) {
+		for (int j = 0; j < 3; j++) {
 
 			int count = 0;
 
-			try (BufferedReader br = new BufferedReader(new FileReader(fileLoc))){
+			try (BufferedReader br = new BufferedReader(new FileReader(fileLoc))) {
 				br.readLine(); // this will read the first line
 
 				while ((line = br.readLine()) != null) {
 					String[] column = line.split(cvsSplitBy);
 
-					for(int i=0;i<Integer.parseInt(column[5])-1;i++) {
-						if(count<3&&column[7+i*4].equals(MacAddr[j])){
+					for (int i = 0; i < Integer.parseInt(column[5]) - 1; i++) {
+						if (count < 3 && column[7 + i * 4].equals(MacAddr[j])) {
 
-							MACSignals[j][count]=Double.valueOf(column[9]);//Sig
+							MACSignals[j][count] = Double.valueOf(column[9]);// Sig
 							Arrays.sort(MACSignals[j]);
 							count++;
 
 						}
 					}
 
-					if(column[7].equals(MacAddr[j])&&count>2) {
-						if(Double.valueOf(column[9])>MACSignals[j][0]) {
-							MACSignals[j][0]=Double.valueOf(column[9]);//Sig
+					if (column[7].equals(MacAddr[j]) && count > 2) {
+						if (Double.valueOf(column[9]) > MACSignals[j][0]) {
+							MACSignals[j][0] = Double.valueOf(column[9]);// Sig
 							Arrays.sort(MACSignals[j]);
 						}
 					}
 
+				} // End - While next line
 
-				}//End - While next line
+			} // End - read
 
+		} // END - For 3
 
-			}//End - read
+		double[] pi = caculateW(MACSignals);
 
-		}//END - For 3
+		double wLoc[][] = new double[3][3];
+		double wSum[] = new double[3];
+		double sumPi = pi[0] + pi[1] + pi[2];
 
-		double[] pi=caculateW(MACSignals);
-		
-		double wLoc	[][] = new double [3][3];
-		double wSum []=new double [3];
-		double sumPi=pi[0]+pi[1]+pi[2];
-		
-		for(int i=0;i<3;i++) {
-			wLoc[i][0]=assumedMACsLocation[i][0]*pi[i];
-			wLoc[i][1]=assumedMACsLocation[i][1]*pi[i];
-			wLoc[i][2]=assumedMACsLocation[i][2]*pi[i];
-			wSum[0]+=wLoc[i][0];
-			wSum[1]+=wLoc[i][1];
-			wSum[2]+=wLoc[i][2];
+		for (int i = 0; i < 3; i++) {
+			wLoc[i][0] = assumedMACsLocation[i][0] * pi[i];
+			wLoc[i][1] = assumedMACsLocation[i][1] * pi[i];
+			wLoc[i][2] = assumedMACsLocation[i][2] * pi[i];
+			wSum[0] += wLoc[i][0];
+			wSum[1] += wLoc[i][1];
+			wSum[2] += wLoc[i][2];
 		}
-		
-		assumedLocation[0]=wSum[0]/sumPi;
-		assumedLocation[1]=wSum[1]/sumPi;
-		assumedLocation[2]=wSum[2]/sumPi;
 
+		assumedLocation[0] = wSum[0] / sumPi;
+		assumedLocation[1] = wSum[1] / sumPi;
+		assumedLocation[2] = wSum[2] / sumPi;
 
 		System.out.println(Arrays.toString(assumedLocation));
 		return assumedLocation;
 	}
 
-
 	/**
 	 * This function get an 2D array and sort it
-	 * @param arr The array you want to sort
+	 * 
+	 * @param arr
+	 *            The array you want to sort
 	 */
 	public static void sort2DArr(double arr[][]) {
 		Arrays.sort(arr, new Comparator<double[]>() {
