@@ -13,108 +13,106 @@ public class Algo {
 	String fileLoc, MacAddr;
 
 	public Algo() {
-		fileLoc="c:/temp2/merged.csv";
+		fileLoc = "c:/temp2/merged.csv";
 	}
 
 	public Algo(String newFileLocation, String newMacAdr) {
-		fileLoc=newFileLocation;
-		MacAddr=newMacAdr;
+		fileLoc = newFileLocation;
+		MacAddr = newMacAdr;
 
 	}
-	
+
 	public Algo(String newMacAdr) {
-		MacAddr=newMacAdr;
+		MacAddr = newMacAdr;
 
 	}
 
-	public  double[] firstAlgo() throws FileNotFoundException, IOException {
-		//Array to save the final location
-		double[] assumedLocation=new double[3];
-		double[][] maxMacFreq=new double[4][4];
+	public double[] firstAlgo() throws FileNotFoundException, IOException {
+		// Array to save the final location
+		double[] assumedLocation = new double[3];
+		double[][] maxMacFreq = new double[4][4];
 		Scanner scanner = new Scanner(System.in);
-		
 
-		//If we don't have MAC addr, ask it from user
-		if(MacAddr==null) {
+		// If we don't have MAC addr, ask it from user
+		if (MacAddr == null) {
 			System.out.println("Enter MAC address");
-			MacAddr=scanner.nextLine();
+			MacAddr = scanner.nextLine();
 		}
 
-		//Delimiter used in CSV file
+		// Delimiter used in CSV file
 		String line = "";
 		String cvsSplitBy = ",";
 		int count = 0;
 
-		try (BufferedReader br = new BufferedReader(new FileReader(fileLoc))){
+		try (BufferedReader br = new BufferedReader(new FileReader(fileLoc))) {
 			br.readLine(); // this will read the first line
 
 			while ((line = br.readLine()) != null) {
 				String[] column = line.split(cvsSplitBy);
 
-				for(int i=0;i<Integer.parseInt(column[5])-1;i++) {
-					if(count<=3&&column[7+i*4].equals(MacAddr)){
+				for (int i = 0; i < Integer.parseInt(column[5]) - 1; i++) {
+					if (count <= 3 && column[7 + i * 4].equals(MacAddr)) {
 
-						maxMacFreq[count][0]=Double.valueOf(column[2]);//Lat
-						maxMacFreq[count][1]=Double.valueOf(column[3]);//Lon
-						maxMacFreq[count][2]=Double.valueOf(column[4]);//Alt
-						maxMacFreq[count][3]=Double.valueOf(column[9]);//Sig
+						maxMacFreq[count][0] = Double.valueOf(column[2]);// Lat
+						maxMacFreq[count][1] = Double.valueOf(column[3]);// Lon
+						maxMacFreq[count][2] = Double.valueOf(column[4]);// Alt
+						maxMacFreq[count][3] = Double.valueOf(column[9]);// Sig
 						sort2DArr(maxMacFreq);
 						count++;
 
 					}
 				}
 
-				 if(column[7].equals(MacAddr)&&count>3) {
-					if(Double.valueOf(column[9])>maxMacFreq[0][3]) {
-						maxMacFreq[0][0]=Double.valueOf(column[2]);//Lat
-						maxMacFreq[0][1]=Double.valueOf(column[3]);//Lon
-						maxMacFreq[0][2]=Double.valueOf(column[4]);//Alt
-						maxMacFreq[0][3]=Double.valueOf(column[9]);//Sig
+				if (column[7].equals(MacAddr) && count > 3) {
+					if (Double.valueOf(column[9]) > maxMacFreq[0][3]) {
+						maxMacFreq[0][0] = Double.valueOf(column[2]);// Lat
+						maxMacFreq[0][1] = Double.valueOf(column[3]);// Lon
+						maxMacFreq[0][2] = Double.valueOf(column[4]);// Alt
+						maxMacFreq[0][3] = Double.valueOf(column[9]);// Sig
 						sort2DArr(maxMacFreq);
 					}
 				}
 
+			} // End - While next line
 
-			}//End - While next line
+		} // End - read
 
-
-		}//End - read
-		
-		//Rearrange the max Signal Array and sort it if needed
-		int finalCounterArray=0;
-		for(int j=0;j<4;j++) {
-			if(maxMacFreq[j][0]!=0)finalCounterArray++;
+		// Rearrange the max Signal Array and sort it if needed
+		int finalCounterArray = 0;
+		for (int j = 0; j < 4; j++) {
+			if (maxMacFreq[j][0] != 0)
+				finalCounterArray++;
 		}
-		
-		double [][]weight=new double[finalCounterArray][4];
-		double[]sumW=new double[4];
-		
-		//Calculate the Weight
-		for(int i=0;i<finalCounterArray;i++) {
-			weight[i][3]=1/(maxMacFreq[i][3]*maxMacFreq[i][3]);
-			weight[i][0]=weight[i][3]*maxMacFreq[i][0];//wLat
-			weight[i][1]=weight[i][3]*maxMacFreq[i][1];//wLon
-			weight[i][2]=weight[i][3]*maxMacFreq[i][2];//wAlt
-			sumW[0]+=weight[i][0];
-			sumW[1]+=weight[i][1];
-			sumW[2]+=weight[i][2];
-			sumW[3]+=weight[i][3];
-			
-		}
-		//Calculate the final Location
-		assumedLocation[0]=sumW[0]/sumW[3];
-		assumedLocation[1]=sumW[1]/sumW[3];
-		assumedLocation[2]=sumW[2]/sumW[3];
-		
 
-		//System.out.println(Arrays.toString(assumedLocation));
+		double[][] weight = new double[finalCounterArray][4];
+		double[] sumW = new double[4];
+
+		// Calculate the Weight
+		for (int i = 0; i < finalCounterArray; i++) {
+			weight[i][3] = 1 / (maxMacFreq[i][3] * maxMacFreq[i][3]);
+			weight[i][0] = weight[i][3] * maxMacFreq[i][0];// wLat
+			weight[i][1] = weight[i][3] * maxMacFreq[i][1];// wLon
+			weight[i][2] = weight[i][3] * maxMacFreq[i][2];// wAlt
+			sumW[0] += weight[i][0];
+			sumW[1] += weight[i][1];
+			sumW[2] += weight[i][2];
+			sumW[3] += weight[i][3];
+
+		}
+		// Calculate the final Location
+		assumedLocation[0] = sumW[0] / sumW[3];
+		assumedLocation[1] = sumW[1] / sumW[3];
+		assumedLocation[2] = sumW[2] / sumW[3];
+
+		// System.out.println(Arrays.toString(assumedLocation));
 		return assumedLocation;
 	}
 
-	
 	/**
 	 * This function get an 2D array and sort it
-	 * @param arr The array you want to sort
+	 * 
+	 * @param arr
+	 *            The array you want to sort
 	 */
 	public static void sort2DArr(double arr[][]) {
 		Arrays.sort(arr, new Comparator<double[]>() {
