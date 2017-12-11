@@ -12,24 +12,35 @@ public class Algo {
 
 	String fileLoc, MacAddr;
 
+	//Create a constructor
 	public Algo() {
 		fileLoc = "c:/temp2/merged.csv";
 	}
 
+	//Create a constructor with new csv file and MAC address
 	public Algo(String newFileLocation, String newMacAdr) {
 		fileLoc = newFileLocation;
 		MacAddr = newMacAdr;
 
 	}
 
+	////Create a constructor with MAC address
 	public Algo(String newMacAdr) {
 		MacAddr = newMacAdr;
+		fileLoc = "c:/temp2/merged.csv";
 
 	}
 
+	/**
+	 * This function get an MAC address and return the assumed location of this MAC
+	 * @return Assumed location of this MAC
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public double[] firstAlgo() throws FileNotFoundException, IOException {
 		// Array to save the final location
 		double[] assumedLocation = new double[3];
+		
 		double[][] maxMacFreq = new double[4][4];
 		Scanner scanner = new Scanner(System.in);
 
@@ -51,27 +62,32 @@ public class Algo {
 				String[] column = line.split(cvsSplitBy);
 
 				for (int i = 0; i < Integer.parseInt(column[5]) - 1; i++) {
+					//reading all the csv file, check if we have the same MAC address,
+					//if so write it to maxMacFreq and then sort it by the signal.
 					if (count <= 3 && column[7 + i * 4].equals(MacAddr)) {
 
 						maxMacFreq[count][0] = Double.valueOf(column[2]);// Lat
 						maxMacFreq[count][1] = Double.valueOf(column[3]);// Lon
 						maxMacFreq[count][2] = Double.valueOf(column[4]);// Alt
-						maxMacFreq[count][3] = Double.valueOf(column[9]);// Sig
+						maxMacFreq[count][3] = Double.valueOf(column[9 + i * 4]);// Sig
 						sort2DArr(maxMacFreq);
 						count++;
 
 					}
+					
+					else if (column[7 + i * 4].equals(MacAddr) && count > 3) {
+						if (Double.valueOf(column[9 + i * 4]) > maxMacFreq[3][3]) {
+							maxMacFreq[3][0] = Double.valueOf(column[2]);// Lat
+							maxMacFreq[3][1] = Double.valueOf(column[3]);// Lon
+							maxMacFreq[3][2] = Double.valueOf(column[4]);// Alt
+							maxMacFreq[3][3] = Double.valueOf(column[9 + i * 4]);// Sig
+							sort2DArr(maxMacFreq);
+						}
+					}
+					
 				}
 
-				if (column[7].equals(MacAddr) && count > 3) {
-					if (Double.valueOf(column[9]) > maxMacFreq[0][3]) {
-						maxMacFreq[0][0] = Double.valueOf(column[2]);// Lat
-						maxMacFreq[0][1] = Double.valueOf(column[3]);// Lon
-						maxMacFreq[0][2] = Double.valueOf(column[4]);// Alt
-						maxMacFreq[0][3] = Double.valueOf(column[9]);// Sig
-						sort2DArr(maxMacFreq);
-					}
-				}
+				
 
 			} // End - While next line
 
@@ -104,15 +120,14 @@ public class Algo {
 		assumedLocation[1] = sumW[1] / sumW[3];
 		assumedLocation[2] = sumW[2] / sumW[3];
 
-		// System.out.println(Arrays.toString(assumedLocation));
+		 System.out.println(Arrays.toString(assumedLocation));
 		return assumedLocation;
 	}
 
 	/**
 	 * This function get an 2D array and sort it
 	 * 
-	 * @param arr
-	 *            The array you want to sort
+	 * @param arr The array you want to sort    
 	 */
 	public static void sort2DArr(double arr[][]) {
 		Arrays.sort(arr, new Comparator<double[]>() {
