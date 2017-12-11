@@ -18,15 +18,6 @@ This project contains several features such as:
 ## So How Does The Program Work?
 <p align="center"><img src="https://preview.ibb.co/g4DVv6/program_step_by_step.png" alt="program_step_by_step" border="0"></p>
 
-## Experiments
-<h4>First experiment</h4>
-This experiment was made with LG H815 while we collect info when we went to Kfar Saba from Ariel.
-<img src="https://preview.ibb.co/k07Ohm/2017_11_05_2.png" alt="2017_11_05_2" border="0">
-
-<h4>Second experiment</h4>
-This experiment was made with HTC U11 while we collect info when we walk in Ariel Univarsty area.
-<img src="https://preview.ibb.co/ge6oF6/2017_11_05_1.png" alt="2017_11_05_1" border="0">
-
 ## Useful Links
 <ul>
  <a href="https://labs.micromata.de/projects/jak/kml-in-the-java-world.html"><li>KML Api</li></a>
