@@ -59,7 +59,7 @@ public class Algo2 {
 
 			for (int j = 0; j < 3; j++) {
 
-				if (MACsSignal[i][j] <= -120 && flags[j])
+				if (MACsSignal[i][j] <= noSignal && flags[j])
 					diff[i][j] = diffNoSignal;
 
 				else if (flags[j])
@@ -122,18 +122,19 @@ public class Algo2 {
 					for (int i = 0; i < Integer.parseInt(column[5]) - 1; i++) {
 						if (count < 3 && column[7 + i * 4].equals(MacAddr[j])) {
 
-							MACSignals[j][count] = Double.valueOf(column[9]);// Sig
+							MACSignals[j][count] = Double.valueOf(column[9 + i * 4]);// Sig
 							Arrays.sort(MACSignals[j]);
 							count++;
 
 						}
-					}
 
-					if (column[7].equals(MacAddr[j]) && count > 2) {
-						if (Double.valueOf(column[9]) > MACSignals[j][0]) {
-							MACSignals[j][0] = Double.valueOf(column[9]);// Sig
-							Arrays.sort(MACSignals[j]);
+						else if (column[7 + i * 4].equals(MacAddr[j]) && count > 2) {
+							if (Double.valueOf(column[9]) > MACSignals[j][0]) {
+								MACSignals[j][0] = Double.valueOf(column[9 + i * 4]);// Sig
+								Arrays.sort(MACSignals[j]);
+							}
 						}
+
 					}
 
 				} // End - While next line
