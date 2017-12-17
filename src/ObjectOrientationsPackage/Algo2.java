@@ -13,23 +13,27 @@ public class Algo2 {
 	String fileLoc;
 	String MacAddr[] = new String[3];
 	int signal[] = new int[3];
-
+	
+	// Parameter value
 	private double power = 2;
 	private double sigDiff = 0.4;
 	private double norm = 10000;
 	private double minDiff = 3;
 	private double noSignal = -120;
 	private double diffNoSignal = 100;
-
+	
+	// Create a constructor
 	public Algo2() {
 		fileLoc = "c:/temp2/merged.csv";
 	}
-
+	
+	// Create a constructor with new csv file 
 	public Algo2(String newFileLocation) {
 		fileLoc = newFileLocation;
 
 	}
-
+	
+	//Get from user 3 MAC addresses and their signals
 	public void insertData() {
 
 		for (int i = 0; i < 3; i++) {
