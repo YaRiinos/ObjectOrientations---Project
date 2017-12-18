@@ -30,11 +30,11 @@ public class FilterCSV {
 	 */
 	public  String Filter() throws FileNotFoundException, IOException {
 		Scanner scanner = new Scanner( System.in );
-		String line = "";
-		String cvsSplitBy = ",";
-		int counter=0;
-
-
+		
+		TimeFilter tf = new TimeFilter();
+		ModelFilter mf = new ModelFilter();
+		LocationFilter lf = new LocationFilter();
+		
 		//Using the filter
 		System.out.println("Do you want to use filter before making the KML file?\nType (Y/N)");
 		String input = scanner.nextLine();
@@ -45,63 +45,21 @@ public class FilterCSV {
 			System.out.println("What are you looking for?\n(1)Time (2)ID (3)Location ");
 			input = scanner.nextLine();
 
-			String dateInput=null,idInput="model=",locationInput=null;
+			
 
 			//Get time
-			if(input.equals("1")) {
-				System.out.println("Type the exact date and time: (Format:2017-10-30 18:10:33)");
-				dateInput= scanner.nextLine();
-
-				try (BufferedReader br = new BufferedReader(new FileReader(firstLocation))){
-					br.readLine(); // this will read the first line
-					while ((line = br.readLine()) != null) {
-						String[] column = line.split(cvsSplitBy);
-						if(column[0].equals(dateInput)) {
-							thePrint(column, firstLocation, lastLocation, counter);
-							counter++;
-						}
-					}
-				}
-			}
+			if(input.equals("1")) 
+				tf.FilterByTime();
+			
 
 			//Get ID/Model
-			else if(input.equals("2")) {
-				System.out.println("Type the exact model:");
-				idInput+= scanner.nextLine();
-				try (BufferedReader br = new BufferedReader(new FileReader(firstLocation))){
-					br.readLine(); // this will read the first line
-					while ((line = br.readLine()) != null) {
-						String[] column = line.split(cvsSplitBy);
-						if(column[1].equals(idInput)) {
-							thePrint(column, firstLocation, lastLocation, counter);
-							counter++;
-
-						}
-					}
-				}
-			}	
+			else if(input.equals("2")) 
+				mf.FilterByModel();
+				
 
 			//Get location
 			else if(input.equals("3")) {
-				double radius;
-				System.out.println("Type the exact Location: (Format:Lat,Lon)");
-				locationInput= scanner.nextLine();
-				System.out.println("Enter a valid radius: ");
-				radius=scanner.nextDouble();
-				try (BufferedReader br = new BufferedReader(new FileReader(firstLocation))){
-					br.readLine(); // this will read the first line
-					while ((line = br.readLine()) != null) {
-						String[] column = line.split(cvsSplitBy);
-						String[] locationSplit=locationInput.split(",");
-						double dis=distFrom(Double.valueOf(locationSplit[0]), Double.valueOf(locationSplit[1]),
-								Double.valueOf(column[2]), Double.valueOf(column[3]));
-						if(dis<=radius){
-							thePrint(column, firstLocation, lastLocation, counter);
-							counter++;
-
-						}
-					}
-				}
+				lf.FilterByLocation();
 			}
 
 			else
