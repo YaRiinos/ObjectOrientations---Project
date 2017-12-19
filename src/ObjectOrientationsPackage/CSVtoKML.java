@@ -1,27 +1,20 @@
-
 package ObjectOrientationsPackage;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
-import de.micromata.opengis.kml.v_2_2_0.Document;
-import de.micromata.opengis.kml.v_2_2_0.Folder;
-import de.micromata.opengis.kml.v_2_2_0.Icon;
-import de.micromata.opengis.kml.v_2_2_0.Kml;
-import de.micromata.opengis.kml.v_2_2_0.Placemark;
-import de.micromata.opengis.kml.v_2_2_0.Style;
+import Algorithms.Algo;
+import CSV.MergeCSV;
+import CSV.ReadAndRewriteCSV;
+import Filter.FilterCSV;
+import KML.ConvertToKML;
+
+
 
 
 /**
@@ -39,39 +32,39 @@ import de.micromata.opengis.kml.v_2_2_0.Style;
 
 public class CSVtoKML {
 
-	public static void main(String[] args) throws IOException{
+	
+	public static void main(String[] args) throws IOException, ParseException{
 
 		//Get the list of file in the 'temp' folder and changing them to the format
 		File[] fileList = new File("c:/temp").listFiles();
 
 		for (int i=0;i < fileList.length;i++) {
 			String newCsv="c:/temp2/NewC"+i+".csv";
-			CSV.ReadAndRewriteCSV MakeCSV=new CSV.ReadAndRewriteCSV("c:/temp/file"+i+".csv");
-			MakeCSV.writeFile(MakeCSV.getCsvFile(), newCsv);
+			ReadAndRewriteCSV MakeCSV=new ReadAndRewriteCSV("c:/temp/file"+i+".csv");
+			ReadAndRewriteCSV.writeFile(MakeCSV.getCsvFile(), newCsv);
 		}
 
 		
 		//Get the new CSV files and merge them to one file
-		CSV.MergeCSV mergeCSVOp = null;
+		//MergeCSV mergeCSVOp = null;
 		List<Path> paths = Arrays.asList(Paths.get("c:/temp2/NewC0.csv"),Paths.get("c:/temp2/NewC1.csv"));
-		List<String> mergedLines = mergeCSVOp.getMerged(paths);
+		List<String> mergedLines = MergeCSV.getMerged(paths);
 		Path target = Paths.get("c:/temp2/merged.csv");
 		Files.write(target, mergedLines);
 
-		//Define merge and filtered CSV
-		String mergeCSV="c:/temp2/merged.csv";
 		String filterCSV="c:/temp2/filterCSV.csv";
 
 		//Use filter function [Input, Output]
 		//Filter(mergeCSV, filterCSV);
-		Filter.FilterCSV FilterObj=new Filter.FilterCSV();
+		FilterCSV FilterObj=new FilterCSV();
 		FilterObj.Filter();
 		
-
+		
+		
 
 		//Check if filter CSV is exist, if so convert him to KML
 		//else convert the merge CSV to KML
-		KML.ConvertToKML Converter=new KML.ConvertToKML();
+		ConvertToKML Converter=new ConvertToKML();
 		File f = new File(filterCSV);
 		if(f.exists() && !f.isDirectory()) { 
 			Converter.setCsvFile(filterCSV);
@@ -80,9 +73,13 @@ public class CSVtoKML {
 		else
 			Converter.csvToKml();
 
-		System.out.println("Done");
-
+		System.out.println("Done\n");
 		
+		Algo a=new Algo();
+		//a.firstAlgoAllMACs();
+
+		//Algo2 x=new Algo2();
+	//	x.secondAlgo();
 
 	}//END MAIN
 
