@@ -31,7 +31,6 @@ public class Algo {
 		fileLoc = "c:/temp2/merged.csv";
 
 	}
-
 	/**
 	 * This function get an MAC address and return the assumed location of this MAC
 	 * 
