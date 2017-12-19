@@ -1,4 +1,4 @@
-[15:19, 19/12/2017] ירין כנפו: package Algorithms;
+package Algorithms;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
