@@ -110,7 +110,7 @@ public class Algo2 {
 		// Get the location of each MAC address
 		for (int j = 0; j < 3; j++) {
 			Algo use = new Algo(fileLoc, MacAddr[j]);
-			assumedMACsLocation[j] = use.firstAlgo();
+			assumedMACsLocation[j] = use.firstAlgoOneMac();
 		}
 
 		for (int j = 0; j < 3; j++) {
@@ -167,6 +167,7 @@ public class Algo2 {
 		assumedLocation[2] = wSum[2] / sumPi;
 
 		System.out.println(Arrays.toString(assumedLocation));
+		scanner.close();
 		return assumedLocation;
 	}
 
