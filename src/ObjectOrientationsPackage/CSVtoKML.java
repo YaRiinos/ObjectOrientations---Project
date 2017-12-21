@@ -39,7 +39,8 @@ public class CSVtoKML {
 		File file = new File("c:/temp2/afterFormat/");
 		File[] files = file.listFiles();
 
-		MergeCSV.GetMerged(files);
+		MergeCSV merge=new MergeCSV();
+		merge.GetMerged(files);
 
 		String filterCSV = "c:/temp2/filterCSV.csv";
 
