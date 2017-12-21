@@ -20,9 +20,18 @@ public class MergeCSV {
 	 * @throws IOException
 	 */
 
+	String outputLoc;
+	
+	public MergeCSV() {
+		outputLoc="c:/temp2/merged.csv";
+	}
+	
+	public MergeCSV(String newOutLoc) {
+		outputLoc=newOutLoc;
+	}
 
-	public static void GetMerged(File[] files) throws IOException {
-		PrintWriter pw = new PrintWriter(new FileOutputStream("c:/temp2/merged.csv"));
+	public  void GetMerged(File[] files) throws IOException {
+		PrintWriter pw = new PrintWriter(new FileOutputStream(outputLoc));
 
 		//Just for space
 		System.out.println();
@@ -74,9 +83,6 @@ public class MergeCSV {
 		System.out.println("All files have been concatenated into merged.csv\n");
 	}
 
-	public MergeCSV() {
-		// super();
-		// TODO Auto-generated constructor stub
-	}
+	
 
 }
