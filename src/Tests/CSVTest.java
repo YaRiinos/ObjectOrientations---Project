@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.io.File;
 
 import org.junit.Test;
 
@@ -38,12 +39,11 @@ public class CSVTest {
 	@Test
 	public void getMergedTest() throws IOException {
 		String expectedCSV="c:/temp2/merged.csv";
-		String orgCSV0="c:/temp2/NewC0.csv";
-		String orgCSV1="c:/temp2/NewC1.csv";
 		String testCSV="c:/temp2/testGetMerged.csv";
-		List<Path> paths=Arrays.asList(Paths.get(orgCSV0),Paths.get(orgCSV1));
-		List<String> mergedLines=junitCSV2.getMerged(paths);
-		Files.write(Paths.get(testCSV), mergedLines);
+		
+		File file = new File("c:/temp2/afterFormat/");
+		File[] files = file.listFiles();
+		CSV.MergeCSV.GetMerged(files, testCSV);
 		
 		String line;
 		BufferedReader expected = new BufferedReader(new FileReader(expectedCSV));
