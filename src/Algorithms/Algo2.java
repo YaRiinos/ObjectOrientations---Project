@@ -13,27 +13,30 @@ public class Algo2 {
 	String fileLoc;
 	String MacAddr[] = new String[3];
 	int signal[] = new int[3];
-	
-	// Parameter value
+
 	private double power = 2;
 	private double sigDiff = 0.4;
 	private double norm = 10000;
 	private double minDiff = 3;
 	private double noSignal = -120;
 	private double diffNoSignal = 100;
-	
-	// Create a constructor
+
 	public Algo2() {
 		fileLoc = "c:/temp2/merged.csv";
 	}
-	
-	// Create a constructor with new csv file 
-	public Algo2(String newFileLocation) {
+
+	public Algo2(String newFileLocation, String newMacAddress1, String newMacAddress2, String newMacAddress3,
+			int newSignal1, int newSignal2, int newSignal3) {
 		fileLoc = newFileLocation;
+		MacAddr[0] = newMacAddress1;
+		MacAddr[1] = newMacAddress2;
+		MacAddr[2] = newMacAddress3;
+		signal[0] = newSignal1;
+		signal[1] = newSignal2;
+		signal[2] = newSignal3;
 
 	}
-	
-	//Get from user 3 MAC addresses and their signals
+
 	public void insertData() {
 
 		for (int i = 0; i < 3; i++) {
@@ -43,7 +46,9 @@ public class Algo2 {
 			System.out.println("Enter the signal of this MAC address:");
 			signal[i] = scanner.nextInt();
 
+			scanner.close();
 		}
+
 	}
 
 	public double[] caculateW(double[][] MACsSignal) {
@@ -101,7 +106,8 @@ public class Algo2 {
 		double[][] MACSignals = new double[3][3];
 		Scanner scanner = new Scanner(System.in);
 
-		insertData();
+		if (signal[0] == 0)
+			insertData();
 
 		// Delimiter used in CSV file
 		String line = "";
@@ -110,7 +116,7 @@ public class Algo2 {
 		// Get the location of each MAC address
 		for (int j = 0; j < 3; j++) {
 			Algo use = new Algo(fileLoc, MacAddr[j]);
-			assumedMACsLocation[j] = use.firstAlgoOneMac();
+			assumedMACsLocation[j] = use.firstAlgoOneMAC();
 		}
 
 		for (int j = 0; j < 3; j++) {
@@ -170,6 +176,8 @@ public class Algo2 {
 		scanner.close();
 		return assumedLocation;
 	}
+
+	//////////////////////////////////////////////////
 
 	/**
 	 * This function get an 2D array and sort it
