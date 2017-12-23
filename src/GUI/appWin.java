@@ -214,6 +214,7 @@ public class appWin {
 				helpWin.helpScreen();
 			}
 		});
+		
 		btnHelp.setBounds(853, 11, 89, 23);
 		frame.getContentPane().add(btnHelp);
 
