@@ -26,11 +26,11 @@ public class Algo {
 	}
 
 	//// Create a constructor with MAC address
-	public Algo(String newMacAdr) {
-		MacAddr = newMacAdr;
-		fileLoc = "c:/temp2/merged.csv";
+	public Algo(String newFileLoc) {
+		fileLoc = newFileLoc;
 
 	}
+
 	/**
 	 * This function get an MAC address and return the assumed location of this MAC
 	 * 
@@ -124,7 +124,9 @@ public class Algo {
 		return assumedLocation;
 	}
 
-	public void firstAlgoAllMACs() throws FileNotFoundException, IOException {
+	public void firstAlgoAllMACs(String filename) throws FileNotFoundException, IOException {
+		
+		
 		// Array to save the final location
 		String[] assumedLocation = new String[4];
 		int MacCounter = 0;
@@ -139,7 +141,7 @@ public class Algo {
 		String cvsSplitBy = ",";
 		int count = 0;
 
-		try (BufferedReader br = new BufferedReader(new FileReader("c:/temp2/merged.CSV"))) {
+		try (BufferedReader br = new BufferedReader(new FileReader(fileLoc))) {
 			br.readLine(); // this will read the first line
 
 			while ((line = br.readLine()) != null) {
@@ -207,7 +209,7 @@ public class Algo {
 						assumedLocation[3] = String.valueOf(sumW[2] / sumW[3]);
 
 						storgeMAC.add(MacAddr);
-						thePrint(assumedLocation, MacCounter);
+						thePrint(assumedLocation, MacCounter, filename);
 						MacCounter++;
 
 					} // End -If Mac address exits int csv
@@ -235,14 +237,15 @@ public class Algo {
 		});
 	}
 
-	public static void thePrint(String column[], int counter) throws IOException {
+	public static void thePrint(String column[], int counter, String filename) throws IOException {
 		// Delimiter used in CSV file
 		String COMMA_DELIMITER = ",";
 		String NEW_LINE_SEPARATOR = "\n";
 		// CSV file header
 		String FILE_HEADER = "MAC, Lat, Lon, Alt";
 		FileWriter fileWriter = null;
-		String filename = "c:/temp2/MACsLoc.csv";
+		if(filename.equals(""))
+			filename = "c:/temp2/MACsLoc.csv";
 
 		if (counter < 1) {
 			try {
