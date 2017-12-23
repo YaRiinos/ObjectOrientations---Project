@@ -79,6 +79,8 @@ public class appWin {
 	private void initialize() {
 		ArrayList<String> database = new ArrayList<String>();
 		int macCounter = 0;
+		
+		
 
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.WHITE);
@@ -90,51 +92,45 @@ public class appWin {
 
 		//////////////
 		JLabel lblNewLabel = new JLabel("HeadLogo");
-		lblNewLabel.setIcon(new ImageIcon(
-				"C:\\Users\\Yarin\\Desktop\\University\\Object orientation\\Task\\Photoshop\\Untitled-11.png"));
+		lblNewLabel.setIcon(new ImageIcon(appWin.class.getResource("/Untitled-11.png")));
 		lblNewLabel.setBounds(218, 11, 414, 104);
 		frame.getContentPane().add(lblNewLabel);
 
 		JTextArea txtrInfo = new JTextArea();
 		txtrInfo.setBackground(Color.WHITE);
 		txtrInfo.setText("Info:");
-		txtrInfo.setBounds(10, 62, 188, 64);
+		txtrInfo.setBounds(10, 38, 261, 90);
 		frame.getContentPane().add(txtrInfo);
 
 		JLabel lblFilterHead = new JLabel("");
-		lblFilterHead.setIcon(new ImageIcon(
-				"C:\\Users\\Yarin\\Desktop\\University\\Object orientation\\Task\\Photoshop\\filterHead.png"));
+		lblFilterHead.setIcon(new ImageIcon(appWin.class.getResource("/filterHead.png")));
 		lblFilterHead.setBounds(84, 139, 145, 32);
 		frame.getContentPane().add(lblFilterHead);
 
 		JLabel lblAlgoHead = new JLabel("");
-		lblAlgoHead.setIcon(new ImageIcon(
-				"C:\\Users\\Yarin\\Desktop\\University\\Object orientation\\Task\\Photoshop\\algoHead.png"));
+		lblAlgoHead.setIcon(new ImageIcon(appWin.class.getResource("/algoHead.png")));
 		lblAlgoHead.setBounds(566, 139, 145, 32);
 		frame.getContentPane().add(lblAlgoHead);
 
 		JLabel lblLocation = new JLabel("");
-		lblLocation.setIcon(
-				new ImageIcon("C:\\Users\\Yarin\\Desktop\\University\\Object orientation\\Task\\Photoshop\\loc.png"));
+		lblLocation.setIcon(new ImageIcon(appWin.class.getResource("/loc.png")));
 		lblLocation.setBounds(20, 195, 105, 23);
 		frame.getContentPane().add(lblLocation);
 
 		JLabel lblModel = new JLabel("");
-		lblModel.setIcon(
-				new ImageIcon("C:\\Users\\Yarin\\Desktop\\University\\Object orientation\\Task\\Photoshop\\mod.png"));
+		lblModel.setIcon(new ImageIcon(appWin.class.getResource("/mod.png")));
 		lblModel.setBounds(203, 305, 105, 23);
 		frame.getContentPane().add(lblModel);
 
 		JLabel lblTime = new JLabel("");
-		lblTime.setIcon(
-				new ImageIcon("C:\\Users\\Yarin\\Desktop\\University\\Object orientation\\Task\\Photoshop\\time.png"));
+		lblTime.setIcon(new ImageIcon(appWin.class.getResource("/time.png")));
 		lblTime.setBounds(203, 196, 105, 23);
 		frame.getContentPane().add(lblTime);
 
-		JCheckBox chckbxNewCheckBox = new JCheckBox("");
-		chckbxNewCheckBox.setBackground(Color.WHITE);
-		chckbxNewCheckBox.setBounds(131, 195, 21, 23);
-		frame.getContentPane().add(chckbxNewCheckBox);
+		JCheckBox locCheckBox = new JCheckBox("");
+		locCheckBox.setBackground(Color.WHITE);
+		locCheckBox.setBounds(131, 195, 21, 23);
+		frame.getContentPane().add(locCheckBox);
 
 		txtLat = new JTextField();
 		txtLat.setText("Lat:");
@@ -169,15 +165,15 @@ public class appWin {
 		rInput.setBounds(94, 290, 86, 20);
 		frame.getContentPane().add(rInput);
 
-		JCheckBox checkBox = new JCheckBox("");
-		checkBox.setBackground(Color.WHITE);
-		checkBox.setBounds(314, 196, 21, 23);
-		frame.getContentPane().add(checkBox);
+		JCheckBox timeCheckBox = new JCheckBox("");
+		timeCheckBox.setBackground(Color.WHITE);
+		timeCheckBox.setBounds(314, 196, 21, 23);
+		frame.getContentPane().add(timeCheckBox);
 
-		JCheckBox checkBox_1 = new JCheckBox("");
-		checkBox_1.setBackground(Color.WHITE);
-		checkBox_1.setBounds(314, 305, 21, 23);
-		frame.getContentPane().add(checkBox_1);
+		JCheckBox modelCheckBox = new JCheckBox("");
+		modelCheckBox.setBackground(Color.WHITE);
+		modelCheckBox.setBounds(314, 305, 21, 23);
+		frame.getContentPane().add(modelCheckBox);
 
 		txtStartTime = new JTextField();
 		txtStartTime.setText("Start Time:\r\n");
@@ -222,14 +218,12 @@ public class appWin {
 		frame.getContentPane().add(btnHelp);
 
 		JLabel label = new JLabel("");
-		label.setIcon(
-				new ImageIcon("C:\\Users\\Yarin\\Desktop\\University\\Object orientation\\Task\\Photoshop\\algo1.png"));
+		label.setIcon(new ImageIcon(appWin.class.getResource("/algo1.png")));
 		label.setBounds(443, 196, 105, 23);
 		frame.getContentPane().add(label);
 
 		JLabel label_1 = new JLabel("");
-		label_1.setIcon(
-				new ImageIcon("C:\\Users\\Yarin\\Desktop\\University\\Object orientation\\Task\\Photoshop\\algo2.png"));
+		label_1.setIcon(new ImageIcon(appWin.class.getResource("/algo2.png")));
 		label_1.setBounds(702, 196, 105, 23);
 		frame.getContentPane().add(label_1);
 
@@ -251,27 +245,27 @@ public class appWin {
 		frame.getContentPane().add(algoResult);
 
 		JLabel lblDddd = new JLabel("");
-		lblDddd.setIcon(
-				new ImageIcon("C:\\Users\\Yarin\\Desktop\\University\\Object orientation\\Task\\Photoshop\\naw.png"));
+		lblDddd.setIcon(new ImageIcon(appWin.class.getResource("/naw.png")));
 		lblDddd.setBounds(131, 178, 21, 20);
 		frame.getContentPane().add(lblDddd);
 
 		JLabel label_3 = new JLabel("");
-		label_3.setIcon(
-				new ImageIcon("C:\\Users\\Yarin\\Desktop\\University\\Object orientation\\Task\\Photoshop\\naw.png"));
+		label_3.setIcon(new ImageIcon(appWin.class.getResource("/naw.png")));
 		label_3.setBounds(314, 178, 21, 20);
 		frame.getContentPane().add(label_3);
 
 		JLabel label_5 = new JLabel("");
-		label_5.setIcon(
-				new ImageIcon("C:\\Users\\Yarin\\Desktop\\University\\Object orientation\\Task\\Photoshop\\naw.png"));
+		label_5.setIcon(new ImageIcon(appWin.class.getResource("/naw.png")));
 		label_5.setBounds(314, 279, 21, 20);
 		frame.getContentPane().add(label_5);
+		
+		
 
 		JButton locPress = new JButton("");
 		locPress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				double lat = 0, lon = 0, r = 0;
+				int flag = 0;
 
 				try {
 					lon = Double.parseDouble(lonInput.getText());
@@ -286,11 +280,15 @@ public class appWin {
 
 				filterGUI op = new filterGUI();
 
-				op.useLocF(database, lat, lon, r);
+				if (locCheckBox.isSelected())
+					flag = 1;
 
-				txtrInfo.setText(
-						"Info:\nAmount of lines is: " + database.size() + "\nAmount of MAC address is: " + macCounter);
+				op.useLocF(database, lat, lon, r, flag);
+				
+				txtrInfo.setText("Info:\nAmount of lines is: " + database.size()
+				+ "\nAmount of MAC address is: " + macCounter);
 
+				
 			}
 		});
 		locPress.setBounds(158, 195, 21, 23);
@@ -300,6 +298,7 @@ public class appWin {
 		timePress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String startTime = null, endTime = null;
+				int flag = 0;
 
 				try {
 					startTime = startTimeInput.getText();
@@ -313,15 +312,18 @@ public class appWin {
 
 				filterGUI op = new filterGUI();
 
+				if (timeCheckBox.isSelected())
+					flag = 1;
+
 				try {
-					op.useTimeF(database, startTime, endTime);
+					op.useTimeF(database, startTime, endTime, flag);
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
 
-				txtrInfo.setText(
-						"Info:\nAmount of lines is: " + database.size() + "\nAmount of MAC address is: " + macCounter);
-
+				txtrInfo.setText("Info:\nAmount of lines is: " + database.size()
+				+ "\nAmount of MAC address is: " + macCounter);
+				
 			}
 		});
 		timePress.setBounds(341, 195, 21, 23);
@@ -331,22 +333,20 @@ public class appWin {
 		modelPress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String phoneModel = null;
+				int flag=0;
 
-				try {
-					phoneModel = modelInput.getText();
-				}
-
-				catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Please enter a valid numbers");
-				}
+				phoneModel = modelInput.getText();
 
 				filterGUI op = new filterGUI();
+				
+				if(modelCheckBox.isSelected())
+					flag=1;
 
-				op.useModF(database, phoneModel);
+				op.useModF(database, phoneModel, flag);
 
-				txtrInfo.setText(
-						"Info:\nAmount of lines is: " + database.size() + "\nAmount of MAC address is: " + macCounter);
-
+				txtrInfo.setText("Info:\nAmount of lines is: " + database.size()
+				+ "\nAmount of MAC address is: " + macCounter);
+				
 			}
 		});
 		modelPress.setBounds(341, 305, 21, 23);
@@ -368,7 +368,7 @@ public class appWin {
 				signal1Input.setText("");
 				signal2Input.setText("");
 				signal3Input.setText("");
-				algoResult.setText("");
+				algoResult.setText("Result:");
 			}
 
 		});
@@ -483,8 +483,8 @@ public class appWin {
 
 				theLoc = op.useAlgo2(database, mac1, mac2, mac3, sig1, sig2, sig3);
 
-				algoResult.setText("Result:\nLocation is:\nLat: " + theLoc[0] + "\nLon: " + theLoc[1]
-						+ "\nAlt: " + theLoc[2]);
+				algoResult.setText(
+						"Result:\nLocation is:\nLat: " + theLoc[0] + "\nLon: " + theLoc[1] + "\nAlt: " + theLoc[2]);
 
 			}
 		});
@@ -507,8 +507,7 @@ public class appWin {
 		frame.getContentPane().add(algo1DatabasePress);
 
 		JLabel lblMadeby = new JLabel("");
-		lblMadeby.setIcon(new ImageIcon(
-				"C:\\Users\\Yarin\\Desktop\\University\\Object orientation\\Task\\Photoshop\\madeBy.png"));
+		lblMadeby.setIcon(new ImageIcon(appWin.class.getResource("/madeBy.png")));
 		lblMadeby.setBounds(0, 381, 271, 27);
 		frame.getContentPane().add(lblMadeby);
 
@@ -528,9 +527,9 @@ public class appWin {
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-
-				txtrInfo.setText(
-						"Info:\nAmount of lines is: " + database.size() + "\nAmount of MAC address is: " + macCounter);
+				
+				txtrInfo.setText("Info:\nAmount of lines is: " + database.size()
+				+ "\nAmount of MAC address is: " + macCounter);
 
 			}
 		});
@@ -544,13 +543,14 @@ public class appWin {
 				try {
 					op.pickFolder(database);
 				} catch (Exception e1) {
-					
+
 					e1.printStackTrace();
 				}
+				
+				txtrInfo.setText("Info:\nAmount of lines is: " + database.size()
+				+ "\nAmount of MAC address is: " + macCounter);
 
-				txtrInfo.setText(
-						"Info:\nAmount of lines is: " + database.size() + "\nAmount of MAC address is: " + macCounter);
-
+				
 			}
 		});
 		mnFile.add(mntmLoadFolder);
@@ -568,7 +568,7 @@ public class appWin {
 				try {
 					op.saveFileCSV(database);
 				} catch (Exception e1) {
-					
+
 					e1.printStackTrace();
 				}
 
@@ -586,7 +586,7 @@ public class appWin {
 				try {
 					op.saveFileKML(database);
 				} catch (Exception e1) {
-					
+
 					e1.printStackTrace();
 				}
 
@@ -603,12 +603,13 @@ public class appWin {
 
 				database.clear();
 
-				txtrInfo.setText(
-						"Info:\nAmount of lines is: " + database.size() + "\nAmount of MAC address is: " + macCounter);
-
+				txtrInfo.setText("Info:\nAmount of lines is: " + database.size()
+				+ "\nAmount of MAC address is: " + macCounter);
 			}
 		});
 		mnFile.add(mntmClearDatabase);
 
+		
+		
 	}
 }
