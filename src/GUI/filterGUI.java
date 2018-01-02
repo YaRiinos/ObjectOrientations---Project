@@ -18,12 +18,15 @@ public class filterGUI {
 
 		for (int i = 0; i < database.size(); i++) {
 			String[] col = database.get(i).split(",");
+			// Calculate the distance
 			dis = LocationFilter.distFrom(Double.valueOf(lat), Double.valueOf(lon), Double.valueOf(col[2]),
 					Double.valueOf(col[3]));
+
+			// Just the filter
 			if (flag == 0) {
 				if (dis <= radius)
 					tempDatabase.add(database.get(i));
-			} else if (dis > radius)
+			} else if (dis > radius)// If NOT is active
 				tempDatabase.add(database.get(i));
 
 		}
@@ -45,11 +48,12 @@ public class filterGUI {
 
 		for (int i = 0; i < database.size(); i++) {
 			String[] col = database.get(i).split(",");
+			// Just the filter
 			if (flag == 0) {
 				if (col[1].equals("model=" + model)) {
 					tempDatabase.add(database.get(i));
 				}
-			} else {
+			} else {// If NOT is active
 				if (!col[1].equals("model=" + model)) {
 					tempDatabase.add(database.get(i));
 				}
@@ -75,11 +79,13 @@ public class filterGUI {
 		for (int i = 0; i < database.size(); i++) {
 			String[] col = database.get(i).split(",");
 
+			// Change the String to date type
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date minDate = dateFormat.parse(startTime);
 			Date maxDate = dateFormat.parse(endTime);
 			Date getDate = dateFormat.parse(col[0]);
 
+			// Just the filter
 			if (flag == 0) {
 				if ((getDate.after(minDate) || getDate.equals(minDate))
 						&& (getDate.before(maxDate) || getDate.equals(maxDate))) {
@@ -89,7 +95,7 @@ public class filterGUI {
 
 			}
 
-			else {
+			else {// If NOT is active
 				if (getDate.before(minDate) || getDate.after(maxDate)) {
 
 					tempDatabase.add(database.get(i));
