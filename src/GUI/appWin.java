@@ -54,6 +54,8 @@ public class appWin {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		fileChange fc = new fileChange();
+		fc.start();
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
