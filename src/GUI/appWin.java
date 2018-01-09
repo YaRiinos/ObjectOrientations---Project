@@ -2,8 +2,10 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -49,13 +52,16 @@ public class appWin {
 	private JTextField txtSignal_1;
 	private JTextField txtSignal_2;
 	int macCounter;
+	public static ArrayList<File> allFiles = new ArrayList<>();
+	static String tempFile = "c:/temp2/prep/tempo.csv";
+	static String line = "";
+	ArrayList<String> database = new ArrayList<String>();
+	ArrayList<File> fileList = new ArrayList<File>();
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		fileChange fc = new fileChange();
-		fc.start();
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -73,6 +79,35 @@ public class appWin {
 	 * Create the application.
 	 */
 	public appWin() {
+
+		Thread CheckModification = new Thread(new Runnable() {
+			public void run() {
+				while (true) {
+					try {
+						if (database != null) {
+							Thread.sleep(3000);
+
+							if (changeGUI.CheckFileDeleted(fileList, database)) {
+								JOptionPane.showMessageDialog(null, "Database Has Been Modified");
+
+							}
+
+						}
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (HeadlessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+
+		});
+		CheckModification.start();
 		initialize();
 	}
 
@@ -80,7 +115,6 @@ public class appWin {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		ArrayList<String> database = new ArrayList<String>();
 
 		// Define the app win size
 		frame = new JFrame();
@@ -336,7 +370,7 @@ public class appWin {
 				if (timeCheckBox.isSelected())
 					flag = 1;
 
-				//Use filter
+				// Use filter
 				try {
 					op.useTimeF(database, startTime, endTime, flag);
 				} catch (ParseException e1) {
@@ -351,11 +385,11 @@ public class appWin {
 		timePress.setBounds(341, 195, 21, 23);
 		frame.getContentPane().add(timePress);
 
-		//Model filter
+		// Model filter
 		JButton modelPress = new JButton("");
 		modelPress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Define obj
+				// Define obj
 				String phoneModel = null;
 				int flag = 0;
 
@@ -367,7 +401,7 @@ public class appWin {
 				if (modelCheckBox.isSelected())
 					flag = 1;
 
-				//Use filter
+				// Use filter
 				op.useModF(database, phoneModel, flag);
 
 				txtrInfo.setText(
@@ -378,7 +412,7 @@ public class appWin {
 		modelPress.setBounds(341, 305, 21, 23);
 		frame.getContentPane().add(modelPress);
 
-		//Clear all text fields
+		// Clear all text fields
 		JButton btnClearFields = new JButton("Clear Fields");
 		btnClearFields.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -402,105 +436,104 @@ public class appWin {
 		btnClearFields.setBounds(820, 52, 122, 23);
 		frame.getContentPane().add(btnClearFields);
 
-		//Text - Mac 1
+		// Text - Mac 1
 		txtMacAddress_1 = new JTextField();
 		txtMacAddress_1.setText("MAC Address1:");
 		txtMacAddress_1.setColumns(10);
 		txtMacAddress_1.setBounds(712, 230, 86, 20);
 		frame.getContentPane().add(txtMacAddress_1);
 
-		//Text - Mac 2
+		// Text - Mac 2
 		txtMacAddress_2 = new JTextField();
 		txtMacAddress_2.setText("MAC Address2:");
 		txtMacAddress_2.setColumns(10);
 		txtMacAddress_2.setBounds(712, 290, 86, 20);
 		frame.getContentPane().add(txtMacAddress_2);
 
-		//Text - Mac 3
+		// Text - Mac 3
 		txtMacAddress_3 = new JTextField();
 		txtMacAddress_3.setText("MAC Address3:");
 		txtMacAddress_3.setColumns(10);
 		txtMacAddress_3.setBounds(712, 350, 86, 20);
 		frame.getContentPane().add(txtMacAddress_3);
 
-		//Text - Input Mac 1
+		// Text - Input Mac 1
 		mac1Input = new JTextField();
 		mac1Input.setColumns(10);
 		mac1Input.setBounds(815, 230, 127, 20);
 		frame.getContentPane().add(mac1Input);
 
-		//Text - Input Mac 2
+		// Text - Input Mac 2
 		mac2Input = new JTextField();
 		mac2Input.setColumns(10);
 		mac2Input.setBounds(815, 290, 127, 20);
 		frame.getContentPane().add(mac2Input);
 
-		//Text - Input Mac 3
+		// Text - Input Mac 3
 		mac3Input = new JTextField();
 		mac3Input.setColumns(10);
 		mac3Input.setBounds(815, 350, 127, 20);
 		frame.getContentPane().add(mac3Input);
 
-		//Text - Sig 1
+		// Text - Sig 1
 		txtSignal = new JTextField();
 		txtSignal.setText("Signal1:");
 		txtSignal.setColumns(10);
 		txtSignal.setBounds(712, 259, 86, 20);
 		frame.getContentPane().add(txtSignal);
 
-		//Text - Input Sig 1
+		// Text - Input Sig 1
 		signal1Input = new JTextField();
 		signal1Input.setColumns(10);
 		signal1Input.setBounds(815, 259, 127, 20);
 		frame.getContentPane().add(signal1Input);
 
-		//Text - Input Sig 2
+		// Text - Input Sig 2
 		signal2Input = new JTextField();
 		signal2Input.setColumns(10);
 		signal2Input.setBounds(815, 321, 127, 20);
 		frame.getContentPane().add(signal2Input);
 
-		//Text - Input Sig 3
+		// Text - Input Sig 3
 		signal3Input = new JTextField();
 		signal3Input.setColumns(10);
 		signal3Input.setBounds(815, 381, 127, 20);
 		frame.getContentPane().add(signal3Input);
 
-		//Text - Sig 2
+		// Text - Sig 2
 		txtSignal_1 = new JTextField();
 		txtSignal_1.setText("Signal2:");
 		txtSignal_1.setColumns(10);
 		txtSignal_1.setBounds(712, 319, 86, 20);
 		frame.getContentPane().add(txtSignal_1);
 
-		//Text - Sig 3
+		// Text - Sig 3
 		txtSignal_2 = new JTextField();
 		txtSignal_2.setText("Signal3:");
 		txtSignal_2.setColumns(10);
 		txtSignal_2.setBounds(712, 381, 86, 20);
 		frame.getContentPane().add(txtSignal_2);
 
-		
-		//Algo1 button
+		// Algo1 button
 		JButton button = new JButton("");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//Define obj
+				// Define obj
 				String macAddress;
 				double[] theLoc = new double[3];
 				algoGUI op = new algoGUI();
 
-				//Get user input
+				// Get user input
 				macAddress = algo1Input.getText();
 
-				//Use algo 1
+				// Use algo 1
 				try {
 					theLoc = op.useAlgo1(database, macAddress);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 
-				//Print result on field
+				// Print result on field
 				algoResult.setText("Result:\nMac Address location is:\nLat: " + theLoc[0] + "\nLon: " + theLoc[1]
 						+ "\nAlt: " + theLoc[2]);
 
@@ -509,16 +542,16 @@ public class appWin {
 		button.setBounds(557, 195, 21, 23);
 		frame.getContentPane().add(button);
 
-		//Algo 2 button
+		// Algo 2 button
 		JButton button_1 = new JButton("");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Define obj
+				// Define obj
 				String mac1, mac2, mac3;
 				int sig1, sig2, sig3;
 				double[] theLoc = new double[3];
 
-				//Get user input
+				// Get user input
 				mac1 = mac1Input.getText();
 				mac2 = mac2Input.getText();
 				mac3 = mac3Input.getText();
@@ -529,10 +562,10 @@ public class appWin {
 
 				algoGUI op = new algoGUI();
 
-				//Use algo 2
+				// Use algo 2
 				theLoc = op.useAlgo2(database, mac1, mac2, mac3, sig1, sig2, sig3);
 
-				//Print result
+				// Print result
 				algoResult.setText(
 						"Result:\nLocation is:\nLat: " + theLoc[0] + "\nLon: " + theLoc[1] + "\nAlt: " + theLoc[2]);
 
@@ -541,13 +574,13 @@ public class appWin {
 		button_1.setBounds(817, 195, 21, 23);
 		frame.getContentPane().add(button_1);
 
-		//Database algo1 button
+		// Database algo1 button
 		JButton algo1DatabasePress = new JButton("Database Algo 1");
 		algo1DatabasePress.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				algoGUI op = new algoGUI();
 
-				//Use algo 1 on all database
+				// Use algo 1 on all database
 				try {
 					op.useAlgo1Database(database);
 				} catch (IOException e) {
@@ -558,13 +591,13 @@ public class appWin {
 		algo1DatabasePress.setBounds(459, 258, 138, 23);
 		frame.getContentPane().add(algo1DatabasePress);
 
-		//Made by.. logo
+		// Made by.. logo
 		JLabel lblMadeby = new JLabel("");
 		lblMadeby.setIcon(new ImageIcon(appWin.class.getResource("/madeBy.png")));
 		lblMadeby.setBounds(0, 381, 271, 27);
 		frame.getContentPane().add(lblMadeby);
 
-		//Menu Bar
+		// Menu Bar
 		JMenuBar menuBar_1 = new JMenuBar();
 		frame.setJMenuBar(menuBar_1);
 
@@ -577,7 +610,7 @@ public class appWin {
 				openFile op = new openFile();
 
 				try {
-					op.pickFile(database);
+					op.pickFile(database, fileList);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -602,7 +635,7 @@ public class appWin {
 				openFile op = new openFile();
 
 				try {
-					op.pickFolder(database);
+					op.pickFolder(database, fileList);
 				} catch (Exception e1) {
 
 					e1.printStackTrace();
@@ -664,7 +697,7 @@ public class appWin {
 		JSeparator separator = new JSeparator();
 		mnFile.add(separator);
 
-		//Clear database
+		// Clear database
 		JMenuItem mntmClearDatabase = new JMenuItem("Clear Database");
 		mntmClearDatabase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -678,5 +711,10 @@ public class appWin {
 		});
 		mnFile.add(mntmClearDatabase);
 
+		/////////////////////
+		
+			txtrInfo.setText(
+					"Info:\nAmount of lines is: " + database.size() + "\nAmount of MAC address is: " + macCounter);
+		////////////////////
 	}
 }
