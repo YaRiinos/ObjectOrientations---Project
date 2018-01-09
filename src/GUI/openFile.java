@@ -29,7 +29,7 @@ public class openFile {
 	String tempFile = "c:/temp2/prep/tempo.csv";
 
 	// Add one file to the database
-	public void pickFile(ArrayList<String> database) throws Exception {
+	public void pickFile(ArrayList<String> database, ArrayList<File> fileList) throws Exception {
 
 		//Set the dir to C
 		fileChooser.setCurrentDirectory(new File("C:\\"));
@@ -38,7 +38,10 @@ public class openFile {
 
 			// get the file
 			java.io.File file = fileChooser.getSelectedFile();
-
+			
+			//Add the file to the file list
+			fileList.add(file);
+			
 			//Check if a file is before a format or after
 			BufferedReader bf = new BufferedReader(new FileReader(file));
 			String checkFile=bf.readLine();
@@ -71,7 +74,7 @@ public class openFile {
 		
 	}
 
-	public void pickFolder(ArrayList<String> database) throws Exception {
+	public void pickFolder(ArrayList<String> database, ArrayList<File> fileList) throws Exception {
 
 		//Set the dir to C
 		fileChooser.setCurrentDirectory(new File("C:\\"));
@@ -86,6 +89,9 @@ public class openFile {
 			File[] files = theFolder.listFiles();
 
 			for (int i = 0; i < files.length; i++) {
+				
+				//Add the file to the file list
+				fileList.add(files[i]);
 
 				//Check if a file is before a format or after
 				BufferedReader bf = new BufferedReader(new FileReader(files[i]));
