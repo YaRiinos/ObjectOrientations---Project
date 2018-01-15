@@ -57,6 +57,7 @@ public class appWin {
 	static String line = "";
 	ArrayList<String> database = new ArrayList<String>();
 	ArrayList<File> fileList = new ArrayList<File>();
+	boolean sqlOn=false;
 
 	/**
 	 * Launch the application.
@@ -83,10 +84,12 @@ public class appWin {
 		Thread CheckModification = new Thread(new Runnable() {
 			public void run() {
 				while (true) {
+					
 					try {
 						if (database != null) {
 							Thread.sleep(3000);
-
+							if(sqlOn)
+								continue;
 							if (changeGUI.CheckFileDeleted(fileList, database)) {
 								JOptionPane.showMessageDialog(null, "Database Has Been Modified");
 
@@ -608,18 +611,23 @@ public class appWin {
 		mntmLoadFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				openFile op = new openFile();
+				int firstData = database.size();
 
 				try {
 					op.pickFile(database, fileList);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
+				
+				int lastData = database.size();
 
-				// Count how much MAC address we have
-				for (int i = 0; i < database.size(); i++) {
-					String line = database.get(i);
-					String[] col = line.split(",");
-					macCounter += Integer.parseInt(col[5]);
+				if (lastData != firstData) {
+					// Count how much MAC address we have
+					for (int i = 0; i < database.size(); i++) {
+						String line = database.get(i);
+						String[] col = line.split(",");
+						macCounter += Integer.parseInt(col[5]);
+					}
 				}
 
 				txtrInfo.setText(
@@ -654,6 +662,32 @@ public class appWin {
 			}
 		});
 		mnFile.add(mntmLoadFolder);
+		
+		JMenuItem mntmLoadFromSql = new JMenuItem("Load From SQL");
+		mntmLoadFromSql.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openFile op = new openFile();
+				try {
+					op.pickSql(database);
+				} catch (Exception e1) {
+
+					e1.printStackTrace();
+				}
+
+				// Count how much MAC address we have
+				for (int i = 0; i < database.size(); i++) {
+					String line = database.get(i);
+					String[] col = line.split(",");
+					macCounter += Integer.parseInt(col[5]);
+				}
+
+				sqlOn=true;
+				
+				txtrInfo.setText(
+						"Info:\nAmount of lines is: " + database.size() + "\nAmount of MAC address is: " + macCounter);
+			}
+		});
+		mnFile.add(mntmLoadFromSql);
 
 		JMenu mnSaveAs = new JMenu("Save as...");
 		mnFile.add(mnSaveAs);
@@ -712,9 +746,8 @@ public class appWin {
 		mnFile.add(mntmClearDatabase);
 
 		/////////////////////
-		
-			txtrInfo.setText(
-					"Info:\nAmount of lines is: " + database.size() + "\nAmount of MAC address is: " + macCounter);
+
+		txtrInfo.setText("Info:\nAmount of lines is: " + database.size() + "\nAmount of MAC address is: " + macCounter);
 		////////////////////
 	}
 }
